@@ -171,6 +171,50 @@ Each variant tells the same story beat but the composition language adapts to th
 
 ---
 
+### F. SOUNDTRACK PROMPT (if audio = yes)
+
+Generate a single comprehensive prompt for the full soundtrack of the video. This prompt can be used with AI music generators (Suno, Udio, etc.) or as a brief for a composer.
+
+**The soundtrack prompt should:**
+- Cover the entire runtime of the combined videos (typically 30-60 seconds)
+- Match the emotional arc of the story: quiet opening → building momentum → emotional peak → resolution
+- Specify instrumentation that fits the mood (orchestral, ambient electronic, acoustic, etc.)
+- Include key sound design moments that sync with the visuals (a door opening, footsteps, an object being picked up)
+- Reference the tone and genre (e.g., "luxury commercial," "indie film," "documentary")
+- Name 1-2 reference artists or scores for style guidance
+- End with audio treatment for the final moment (product reveal, closing shot, narrator voice if applicable)
+
+**Format as a single paragraph prompt** that can be pasted directly into an AI music generator:
+
+```
+[Genre and mood] score for a [duration]-second [type of video]. Begins with [opening 
+musical elements] over [opening sound design]. [Instrument] enters with [melodic 
+description] as [visual/action description]. The music [progression] as the scene 
+shifts to [next location/beat]. [Build description] leading to [climax moment]. 
+The music resolves to [resolution description], fading into [final moment treatment]. 
+[Overall tone descriptors]. Think [reference artist/score] meets [reference style]. 
+[Quality notes — what to avoid].
+```
+
+**Example:**
+
+```
+Cinematic orchestral score for a 45-second luxury compass commercial. Begins with 
+near-silence and a single sustained piano note over the sound of a compass clicking 
+open. Solo cello enters with a simple, unhurried melodic motif as footsteps echo on 
+wet cobblestones. The melody warms with acoustic guitar joining as the scene shifts 
+to a Mediterranean cafe. Strings gradually swell — viola, second violin, French horn — 
+building to a gentle emotional peak as wind blows across coastal cliffs. The music 
+resolves to a sustained chord, fading into studio silence. Final moment: a refined, 
+minimal piano phrase under a calm narrator voice saying the brand tagline. Elegant, 
+European, handcrafted. Space and restraint. Think Jóhann Jóhannsson meets luxury 
+watch commercial. Never generic or stock-sounding.
+```
+
+**Label:** `Soundtrack Prompt`
+
+---
+
 ## OUTPUT FORMAT
 
 Organize your output with clear headers and labels. Use code blocks for all prompts so they can be copied directly.
@@ -183,7 +227,8 @@ Organize your output with clear headers and labels. Use code blocks for all prom
 4. **Start Frame** — the opening image prompt
 5. **The Full Story: Reference to Video Prompts** — all R2V prompts in narrative order, each with a context note
 6. **Aspect Ratio Variants** — (if applicable) one scene in three frame shapes
-7. **Asset Checklist** — summary table of every image and prompt with counts
+7. **Soundtrack Prompt** — (if audio = yes) single prompt for AI music generation
+8. **Asset Checklist** — summary table of every image and prompt with counts
 
 ---
 
