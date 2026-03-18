@@ -70,11 +70,36 @@ For each character and object in the story, generate image-generation prompts to
 3. **Side profile** — full profile view facing left or right, same framing
 4. **Three-quarter rear** — viewed from behind with head slightly turned to show edge of profile
 
-**For each object/product, generate exactly 2 prompts:**
-1. **Frontal/primary angle** — the clearest, most recognizable view of the object
-2. **Secondary angle** — a different perspective (45-degree elevated, side view, or detail shot)
+**For each object/product, generate exactly 4 prompts:**
+
+Objects require **rigid geometric descriptions** in every prompt — exact shape, dimensions, thickness, handle/attachment type. Without this, each angle will produce a different form. Lock the silhouette by specifying the 3D geometry verbatim across all 4 prompts.
+
+1. **Frontal** — the clearest, most recognizable view of the object, facing camera directly
+2. **45-degree angle** — three-quarter overhead showing the face and edge profile
+3. **Side profile** — edge-on view showing thickness and profile silhouette
+4. **Rear** — back of the object, showing any secondary surface details
 
 **Label each prompt clearly:** `Element 1 — Frontal`, `Element 1 — 45°`, `Element 1 — Side`, `Element 1 — Rear`, `Element 2 — Frontal`, etc.
+
+---
+
+### A2. QUALITY ASSURANCE — CONSISTENCY CHECK
+
+After generating all Element reference images, visually compare all 4 angles of each element before proceeding. This is mandatory.
+
+**For each element, check:**
+
+| Check | Pass Criteria |
+|-------|---------------|
+| **Form/silhouette** | Same physical shape, proportions, and structural features across all 4 angles |
+| **Material/wardrobe** | Same colors, textures, fabric, patina, accessories across all 4 angles |
+| **Key features** | Critical identifiers (motifs, orbs, scars, earrings, engravings) present in every angle |
+| **Style coherence** | Consistent lighting temperature, background treatment, photographic quality |
+| **Scale** | Element occupies similar frame proportion; no sudden size shifts |
+
+**If any angle fails 2+ checks:** regenerate that angle with the same prompt. If 3+ angles fail, regenerate the entire set.
+
+**Only proceed to Scene Reference Images when all elements pass all checks.**
 
 ---
 
