@@ -9,6 +9,7 @@ Mega-prompt templates designed to be pasted into a frontier language model. Fill
 | Template | Feature | Description |
 |----------|---------|-------------|
 | [Reference to Video](reference-to-video-prompt-generator.md) | Kling O3 R2V | Generates all Element reference images, Scene reference images, Start Frames, and Video Studio prompts for a Reference to Video project |
+| [Build a Brand](build-a-brand-with-qwen.md) | Qwen 3.7 + Qwen Image 2 Pro | Step-by-step prompts to build a full brand — world, product, explainer, and launch campaign — with consistent copy and visuals |
 
 ## Skills
 
