@@ -10,6 +10,7 @@ Mega-prompt templates designed to be pasted into a frontier language model. Fill
 |----------|---------|-------------|
 | [Reference to Video](reference-to-video-prompt-generator.md) | Kling O3 R2V | Generates all Element reference images, Scene reference images, Start Frames, and Video Studio prompts for a Reference to Video project |
 | [Build a Brand](build-a-brand-with-qwen.md) | Qwen 3.7 + Qwen Image 2 Pro | Step-by-step prompts to build a full brand — world, product, explainer, and launch campaign — with consistent copy and visuals |
+| [Multilingual Talking Head](multilingual-talking-head-seven-languages.md) | Happy Horse 1.1 | Copy-paste prompts to invent a photorealistic person, then make them speak one line in all seven lip-sync languages, each in front of a landmark — plus rapid-fire backdrop and soundtrack prompts |
 
 ## Skills
 
