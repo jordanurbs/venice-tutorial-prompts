@@ -12,6 +12,14 @@ Mega-prompt templates designed to be pasted into a frontier language model. Fill
 | [Build a Brand](build-a-brand-with-qwen.md) | Qwen 3.7 + Qwen Image 2 Pro | Step-by-step prompts to build a full brand — world, product, explainer, and launch campaign — with consistent copy and visuals |
 | [Multilingual Talking Head](multilingual-talking-head-seven-languages.md) | Happy Horse 1.1 | Copy-paste prompts to invent a photorealistic person, then make them speak one line in all seven lip-sync languages, each in front of a landmark — plus rapid-fire backdrop and soundtrack prompts |
 
+## Prompt packs
+
+Ready-to-use prompts you can paste straight into Studio — no fill-in step.
+
+| Pack | Feature | Description |
+|------|---------|-------------|
+| [Iconic Film Homages](iconic-film-homages-studio-feature-tour.md) | Studio feature tour | Four cartoon homages to famous films (*The Good, the Bad and the Ugly*, *2001*, *Jaws*, *Singin' in the Rain*), each demoing a different Studio-adjacent feature: agentic-chat prompt-writing, image start frame, image reference, and audio reference |
+
 ## Skills
 
 Agent skills for AI coding assistants (Cursor, Claude Code, etc.) that automate the end-to-end production workflow.
