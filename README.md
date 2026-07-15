@@ -19,6 +19,7 @@ Ready-to-use prompts you can paste straight into Studio — no fill-in step.
 | Pack | Feature | Description |
 |------|---------|-------------|
 | [Iconic Film Homages](iconic-film-homages-studio-feature-tour.md) | Studio feature tour | Four cartoon homages to famous films (*The Good, the Bad and the Ugly*, *2001*, *Jaws*, *Singin' in the Rain*), each demoing a different Studio-adjacent feature: agentic-chat prompt-writing, image start frame, image reference, and audio reference |
+| [The Chrome Canary](chrome-canary-noir-short-film-seedance.md) | Seedance 2.0 R2V | A complete 22-shot noir short film in 21:9 — 15 reference image prompts plus every video generation prompt, with continuity/retry notes. Companion pack to the Learn Venice "make an entire short film" guide |
 
 ## Skills
 
