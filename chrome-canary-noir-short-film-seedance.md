@@ -45,91 +45,123 @@ naturalistic motion, no camera shake
 
 ## Part 1 — Reference images (generate these first)
 
-| # | Ref | What it locks |
-|---|-----|----------------|
-| REF-01 | Evie, front | Lead character master sheet |
-| REF-02 | Evie, profile | Turnaround + chest panel location |
-| REF-03 | Evie, face + open chest panel | The memory-spool reveal |
-| REF-04 | Jack Marlow, front | Second lead master sheet |
-| REF-05 | Jack, face detail | Close-up coverage |
-| REF-06 | Mr. Graves, front | The heavy (chrome left hand) |
-| REF-07 | Graves' chrome hand | Insert-shot prop-hand |
-| REF-08 | City aerial plate | Establishing world |
-| REF-09 | Street plate | Club district block |
-| REF-10 | Alley + club door | The canary neon door |
-| REF-11 | Lounge interior | The High Orbit club |
-| REF-12 | Jack's office | Venetian-blind interior |
-| REF-13 | Rooftop plate | Act III location (dawn seam) |
-| REF-14 | The spool (prop) | Glowing original + inert blank |
-| REF-15 | Style key-frame | Grade anchor |
+Character refs use a **two-stage workflow** so every angle is the same
+character, not a lucky re-roll:
 
-### REF-01 — Evie, front (master character sheet)
+1. **Masters (generate):** REF-01, REF-04, REF-06 — front-facing, full-body,
+   plain backdrop, nothing else in frame. Generate with a text-to-image model
+   (we used `gpt-image-2`). Retry until you love them; everything inherits
+   from these.
+2. **Derivatives (edit):** REF-02, REF-03, REF-05, REF-07 — feed the approved
+   master into an image *edit* model (`POST /image/edit`, we used
+   `gpt-image-2-edit`) with a "this exact same character, now …" prompt. The
+   edit model preserves identity far better than re-prompting from scratch.
 
-```
-Full-body studio portrait of a beautiful feminine torch-singer automaton,
-model "Canary C-3": elegant cream-and-brass chrome body with art-deco panel
-seams like coachwork on a luxury sedan, sculpted art-deco facial plates,
-glowing amber vacuum-tube eyes behind small glass lenses, a luxurious
-canary-yellow feather boa draped over her shoulders, standing perfectly still
-and poised in a single warm spotlight against black, faint tube-amp glow from
-her joints.
-```
+Keep character sheets sterile: plain backdrop, no set dressing, no
+storytelling. Atmosphere (rain, neon, venetian blinds) belongs in the
+location plates and storyboard frames — bake it into a character ref and it
+follows the character into every shot.
 
-### REF-02 — Evie, profile
+| # | Ref | Stage | What it locks |
+|---|-----|-------|----------------|
+| REF-01 | Evie, front | master | Lead character master sheet |
+| REF-02 | Evie, profile | edit of REF-01 | Turnaround + chest panel location |
+| REF-03 | Evie, face + open chest panel | edit of REF-01 | The memory-spool reveal |
+| REF-04 | Jack Marlow, front | master | Second lead master sheet |
+| REF-05 | Jack, face detail | edit of REF-04 | Close-up coverage |
+| REF-06 | Mr. Graves, front | master | The heavy (chrome left hand) |
+| REF-07 | Graves' chrome hand | edit of REF-06 | Insert-shot prop-hand |
+| REF-08 | City aerial plate | generate | Establishing world |
+| REF-09 | Street plate | generate | Club district block |
+| REF-10 | Alley + club door | generate | The canary neon door |
+| REF-11 | Lounge interior | generate | The High Orbit club |
+| REF-12 | Jack's office | generate | Venetian-blind interior |
+| REF-13 | Rooftop plate | generate | Act III location (dawn seam) |
+| REF-14 | The spool (prop) | generate | Glowing original + inert blank |
+| REF-15 | Style key-frame | generate | Grade anchor |
 
-```
-Side profile full-body view of a feminine torch-singer automaton:
-cream-and-brass chrome body with art-deco panel seams, sculpted art-deco
-facial plates, glowing amber vacuum-tube eyes, canary-yellow feather boa
-trailing, a small closed rectangular chest panel with brass hinges visible
-over her sternum, single spotlight against black, elegant still posture.
-```
-
-### REF-03 — Evie, face + chest panel detail
+**Character-sheet style block — append to the three master prompts (replaces
+the global style block for character sheets):**
 
 ```
-Close-up detail sheet of a feminine chrome automaton: left half of frame her
-art-deco chrome face in profile with glowing amber vacuum-tube eyes; right
-half of frame her chest panel hinged open with watchmaker precision revealing
-a small brass wire memory spool glowing faintly amber inside a velvet-lined
-cavity.
+Plain seamless dark charcoal studio backdrop, no scenery, no props, no
+furniture, no signage, no text, no lettering, nothing else in frame — the
+character only. Even cinematic studio key lighting with soft rim light,
+1950s Technicolor film noir grade, subtle film grain and halation, deep
+crushed blacks, anamorphic 21:9 character reference sheet.
 ```
 
-### REF-04 — Jack Marlow, front (master character sheet)
+### REF-01 — Evie, front (master · generate)
 
 ```
-Full-body studio portrait of a world-weary private investigator, mid-40s,
-rumpled grey three-piece suit, loosened dark tie, grey fedora, two days of
-stubble, tired perceptive eyes, cigarette in hand with smoke curling up,
-standing in venetian-blind slashes of light against dark office shadow.
+Full-body front-facing studio portrait of a beautiful feminine torch-singer
+automaton, model Canary C-3, standing centered and perfectly still, arms
+relaxed at her sides: elegant cream-and-brass chrome body with art-deco
+panel seams like coachwork on a luxury sedan, sculpted art-deco facial
+plates, glowing amber vacuum-tube eyes behind small glass lenses, a
+luxurious canary-yellow feather boa draped over her shoulders, a small
+closed rectangular chest panel with brass hinges over her sternum.
 ```
 
-### REF-05 — Jack, face detail
+### REF-02 — Evie, profile (edit of REF-01)
 
 ```
-Close-up portrait of a mid-40s private investigator: fedora brim shading
-tired perceptive eyes, stubble, loosened tie, cigarette smoke drifting past
-his face, one half of his face cut by venetian-blind shadow, warm desk-lamp
-key light.
+Turn this exact same automaton to a full left side profile view, same
+full-body framing, same pose discipline (standing perfectly still, arms at
+sides), same canary-yellow feather boa now trailing down her back, her small
+closed rectangular chest panel with brass hinges visible in profile over her
+sternum. Keep the identical plain dark charcoal studio backdrop, identical
+lighting, nothing else in frame.
 ```
 
-### REF-06 — Mr. Graves, front (master character sheet)
+### REF-03 — Evie, face + chest panel detail (edit of REF-01)
 
 ```
-Full-body studio portrait of an immaculate mob enforcer: tall, unhurried
-posture, perfectly tailored black suit, black leather glove on the right hand
-only, the left hand a polished chrome prosthetic catching neon-magenta light,
-black umbrella furled at his side, dry while everything around him is wet,
-against a rain-streaked dark backdrop.
+Close-up detail sheet of this exact same automaton: left half of frame her
+face in left profile with glowing amber vacuum-tube eyes; right half of
+frame her chest panel hinged open with watchmaker precision revealing a
+small brass wire memory spool glowing faintly amber inside a velvet-lined
+cavity. Keep the identical plain dark charcoal studio backdrop and lighting,
+no text, no nameplates, no lettering, nothing else in frame.
 ```
 
-### REF-07 — Graves' chrome hand detail
+### REF-04 — Jack Marlow, front (master · generate)
 
 ```
-Extreme close-up of a polished chrome prosthetic left hand, art-deco knuckle
-segments, fingers drumming on a dark mahogany bar top, neon-magenta
-reflections sliding across the chrome, shallow depth of field, black suit
-cuff and white shirt cuff behind it.
+Full-body front-facing studio portrait of a world-weary private investigator
+standing centered, mid-40s, rumpled grey three-piece suit, loosened dark
+tie, grey fedora, two days of stubble, tired perceptive eyes, a lit
+cigarette in his right hand with smoke curling up.
+```
+
+### REF-05 — Jack, face detail (edit of REF-04)
+
+```
+Close-up head-and-shoulders portrait of this exact same private
+investigator: fedora brim shading his tired perceptive eyes, stubble,
+loosened tie, cigarette smoke drifting past his face, one half of his face
+cut by a hard venetian-blind slash of shadow, warm key light. Keep the
+identical plain dark charcoal studio backdrop, nothing else in frame.
+```
+
+### REF-06 — Mr. Graves, front (master · generate)
+
+```
+Full-body front-facing studio portrait of an immaculate mob enforcer
+standing centered: tall, unhurried posture, perfectly tailored black suit,
+black leather glove on the right hand only, the left hand a polished chrome
+prosthetic with art-deco knuckle segments, a black umbrella furled at his
+side.
+```
+
+### REF-07 — Graves' chrome hand detail (edit of REF-06)
+
+```
+Extreme close-up of this exact same enforcer's polished chrome prosthetic
+left hand with art-deco knuckle segments, fingers slightly curled at rest,
+black suit cuff and white shirt cuff behind it, neon-magenta reflections
+sliding across the chrome, shallow depth of field. Keep the plain dark
+charcoal studio backdrop, nothing else in frame.
 ```
 
 ### REF-08 — City plate (aerial, night rain)
