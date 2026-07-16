@@ -20,7 +20,10 @@ Bittersweet three-act noir: the truth gets out, but everyone pays for it.
    using the listed refs as image references.
 3. Feed the storyboard frame + refs into **Seedance 2.0 R2V enhanced** with the
    shot's video prompt. Keep motion intensity LOW unless the prompt says
-   otherwise — noir reads as expensive when it's still.
+   otherwise — noir reads as expensive when it's still. Generate every clip
+   with model audio OFF — narration and music are separate passes (Parts 3–4).
+4. Render the **voice-over** (Part 3) and the **score + Evie's song** (Part 4),
+   then mix under the cut.
 
 **Global style block — append to every image prompt:**
 
@@ -492,3 +495,98 @@ black. Motion intensity: LOW.
 - Keep motion intensity LOW by default. The one deliberate exception is
   shot 07: chaos everywhere EXCEPT the motionless subject — the most
   instructive Seedance motion-direction exercise in the pack.
+
+---
+
+## Part 3 — Voice-over narration (TTS)
+
+Jack Marlow narrates the whole film — no on-camera dialogue. That means every
+video clip should be generated with **model audio OFF / muted** so Seedance
+can't synthesize a competing narrator, and the VO is rendered separately and
+laid over the cut.
+
+Full timed VO script (~230 words, deliberately sparse — silence is a tool;
+shots 05–07 and 19 carry no VO on purpose): see
+[`03-script/voiceover.md`](https://github.com/jordanurbs/venice-tutorial-prompts)
+in the project files, or the guide article. Word count at noir cadence
+(~110 wpm) fills roughly 2:05 of a 2:45 cut, leaving room for the song and
+the silences.
+
+**Voice settings (Venice TTS, `tts-kokoro`):**
+
+| Setting | Value |
+| --- | --- |
+| model | `tts-kokoro` |
+| voice | `am_onyx` (deep gravel baritone — closest stock match for a noir PI) |
+| speed | `0.92` (slower than natural; noir VO is unhurried) |
+| format | `mp3` |
+
+```bash
+curl -s https://api.venice.ai/api/v1/audio/speech \
+  -H "Authorization: Bearer $VENICE_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "tts-kokoro",
+    "voice": "am_onyx",
+    "speed": 0.92,
+    "response_format": "mp3",
+    "input": "Meridian City. Nineteen fifty-eight. The future showed up fifteen years early, and the first thing it learned to do was look the other way."
+  }' -o vo-shot-01.mp3
+```
+
+**Delivery direction (paste ahead of the line if your TTS route accepts
+style hints, otherwise keep for a human/VO-model pass):**
+
+```
+Dry, unhurried, gravel and smoke. Classic 1950s film-noir private-eye
+voice-over. Low pitch, flat affect, faint weariness, no theatricality.
+Pause at every period. Never rush a sentence.
+```
+
+**Per-line rendering tip:** render each VO block as its own file, one per
+shot group (01–03, 04, 08, 09–10, 11, 12, 13–15, 16, 17–18, 20, 21, 22),
+rather than one long take — it lets you slide lines against picture in the
+edit without re-rendering, and a re-roll of one flubbed line doesn't change
+the timing of the rest.
+
+---
+
+## Part 4 — Music (score prompt)
+
+One continuous cue works for the whole short (and for the teaser cut): noir
+scores of the era were through-composed, not needle-dropped. Generate at
+full length, then duck it under the VO (music bed around −20 dB relative to
+narration, swelling in the VO-free stretches: the murder 05–07, the
+handoff 19, and Evie's final song 22).
+
+**Main score prompt (any music model — e.g. `elevenlabs-music`):**
+
+```
+1950s film-noir score, slow-burn and smoky: a lonely muted trumpet melody
+over sparse upright bass, brushed drums, and low tremolo strings. Torch-song
+mood, late-night supper club after closing. Builds twice — a dissonant brass
+stinger at the murder, a colder string swell for the betrayal — then resolves
+into a tender solo piano-and-trumpet coda that ends on one sustained,
+unresolved minor chord. Vintage analog warmth, mono-era room tone, tape hiss.
+No modern drums, no synthesizers.
+```
+
+**Evie's song (diegetic, for shots 03–04 and 22 — generate separately):**
+
+```
+A slow 1950s torch song sung by a smoky female voice, close-mic'd on a ribbon
+microphone with tube-amp warmth and gentle vinyl crackle. Sparse backing:
+brushed drums, upright bass, a distant piano. Melancholy but composed —
+a nightclub singer who knows the song is about her. Ends unresolved,
+mid-phrase, as if interrupted.
+```
+
+**Mix notes:**
+
+- VO on top (0 dB reference), music bed at −20 dB under narration,
+  swelling to −12 dB in the VO-free stretches.
+- The score and the diegetic song should never play at once: crossfade the
+  club song INTO the score at the shot 04 → 05 cut (the moment the murder
+  interrupts her set), and hand back to the song for shot 22.
+- End the film on the song, not the score — the last sound is Evie,
+  mid-phrase, unresolved.
