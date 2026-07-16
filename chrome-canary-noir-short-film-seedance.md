@@ -505,12 +505,86 @@ video clip should be generated with **model audio OFF / muted** so Seedance
 can't synthesize a competing narrator, and the VO is rendered separately and
 laid over the cut.
 
-Full timed VO script (~230 words, deliberately sparse — silence is a tool;
-shots 05–07 and 19 carry no VO on purpose): see
-[`03-script/voiceover.md`](https://github.com/jordanurbs/venice-tutorial-prompts)
-in the project files, or the guide article. Word count at noir cadence
-(~110 wpm) fills roughly 2:05 of a 2:45 cut, leaving room for the song and
+The full timed script (~230 words) is below. It is deliberately sparse —
+silence is a tool; shots 05–07 and 19 carry no VO on purpose. At noir cadence
+(~110 wpm) it fills roughly 2:05 of a 2:45 cut, leaving room for the song and
 the silences.
+
+### The VO script (Jack Marlow)
+
+**[Shots 01–03 — the funnel into the club]**
+
+> Meridian City. Nineteen fifty-eight. The future showed up fifteen years
+> early, and the first thing it learned to do was look the other way.
+>
+> Every joint in town ran on tubes and small favors. The machines poured the
+> drinks, sang the songs, took the fall. Nobody watched what they said in
+> front of the help.
+
+**[Shot 04 — Evie reveal]**
+
+> That was the night the help started listening.
+
+**[Shots 05–07 — the murder]** *(no VO — let the reflection play in silence,
+music only)*
+
+**[Shot 08 — alley escape]**
+
+> Sonny Vale caught two in his own booth, and the only witness in the room
+> wasn't legally a person.
+
+**[Shots 09–10 — Jack's office]**
+
+> She found me the way trouble always finds me. Through the door marked
+> "machine claims." I told her no. I want that on the record — I told her no.
+
+**[Shot 11 — the spool]**
+
+> Then she opened up her chest and showed me the truth on a brass spool, and
+> I remembered why they took my badge.
+
+**[Shot 12 — Graves]** *(no VO until the last second)*
+
+> The Belmontes sent Graves. They always send Graves.
+
+**[Shots 13–15 — the run]**
+
+> A machine's memory is property. Copy it, and it fades — like a song you
+> only half remember. Kessler made us two spools: one true, one blank. She
+> paid for it with a piece of what she saw.
+
+**[Shot 16 — the realization]**
+
+> That's when it added up. The spool didn't just name the shooter. It named
+> the men I owed money to.
+
+**[Shots 17–18 — rooftop]**
+
+> Graves offered me the cleanest deal I ever heard. My whole ledger, gone,
+> for one spool of wire. All I had to do was hand over the only honest
+> witness in Meridian City.
+
+**[Shot 19 — the handoff]** *(no VO — the lie plays silent)*
+
+**[Shot 20 — dawn]**
+
+> He'd know by morning. Some checks you write knowing they'll bounce.
+
+**[Shot 21 — the papers]**
+
+> The courts couldn't touch a spool of wire. Turns out the morning edition
+> could.
+
+**[Shot 22 — dockside bar, close]**
+
+> Her testimony was worthless in any court in the country. Cost me everything
+> anyway.
+>
+> *(beat — she sings)*
+>
+> Some songs are like that.
+
+### Rendering the VO
 
 **Voice settings (Venice TTS, `tts-kokoro`):**
 
