@@ -664,3 +664,79 @@ mid-phrase, as if interrupted.
   interrupts her set), and hand back to the song for shot 22.
 - End the film on the song, not the score — the last sound is Evie,
   mid-phrase, unresolved.
+
+---
+
+## Part 5 — The teaser trailer (35–40s cut)
+
+A self-contained 8-shot teaser you can produce before (or instead of) the
+full short. It reuses the same refs and style blocks; shots 1–2 are the
+existing city and alley plates, the rest are new setups. Every clip generates
+with model audio OFF, same as the short.
+
+### Trailer shot list
+
+| # | Setup | Gen length | In the cut |
+| --- | --- | --- | --- |
+| T1 | Aerial over Meridian City (REF-08) | 5s | ~4s |
+| T2 | Dolly down the alley to the club door (REF-10) | 5s | ~4s |
+| T3 | Evie mid-song from the back of the room (REF-01) | 8s | ~6s |
+| T4 | Muzzle flash in the chrome mic reflection | 5s | ~4s |
+| T5 | Jack behind his desk, venetian-blind neon (REF-04) | 6s | ~5s |
+| T6 | Chest panel open, the brass spool (REF-03) | 5s | ~4s |
+| T7 | Graves' chrome hand drums on the bar (REF-07) | 5s | ~4s |
+| T8 | Club in panic, Evie motionless + title card (REF-01) | 8s | ~7s |
+
+Generate at full length, trim in the edit: ~38s picture. Hard cuts
+throughout, fade to black on T8 under the title.
+
+### Trailer VO script (Jack Marlow — single take, ~80 words)
+
+Timed to the cut above at noir cadence (~110 wpm, speed 0.92). One line per
+shot; T4 stays silent except the gunshot.
+
+> **[T1]** Meridian City. Nineteen fifty-eight. A town that chromed its sins
+> and called them progress.
+>
+> **[T2]** Down on Bird Street there's a club where the whiskey's honest —
+> and nothing else is.
+>
+> **[T3]** They built her to sing. Nobody thought to ask what she'd remember.
+>
+> **[T4]** *(no VO — one gunshot, then silence)*
+>
+> **[T5]** I don't take cases with heartbeats anymore. Turns out she didn't
+> have one.
+>
+> **[T6]** Everything she saw that night, wound onto three inches of brass
+> wire.
+>
+> **[T7]** And the man who owns this town wants that wire... pulled.
+>
+> **[T8]** The Chrome Canary. Some songs don't die. They just change key.
+
+Render it as one take (same `tts-kokoro` / `am_onyx` / speed 0.92 settings as
+Part 3) — the trailer is short enough that a single file keeps the momentum,
+and the T4 gap is cut in the edit, not the read. If the take lands long,
+nudge speed to 0.95 before touching the script.
+
+### Trailer music prompt
+
+One cue, generated at 40–45s:
+
+```
+1950s film-noir trailer score, 40 seconds: smoky solo torch-song vocalise
+over sparse upright bass and brushed drums, slow-burn build with dissonant
+brass swells, a sudden hard stinger at the midpoint, then a final swell that
+cuts to one sustained unresolved minor chord under the title. Vintage analog
+warmth, mono-era room tone, tape hiss. No modern drums, no synthesizers.
+```
+
+**Trailer mix notes:**
+
+- Land the midpoint stinger exactly on T4's muzzle flash; if the generated
+  cue's stinger drifts, slide the music, not the picture.
+- Bed at −20 dB under VO, swelling to −14 dB across T4 and again under the
+  title card.
+- Last sound: the unresolved chord decaying under "They just change key,"
+  then one beat of true silence before the end.
