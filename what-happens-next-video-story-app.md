@@ -90,9 +90,9 @@ EVERY LATER scene — first grab the last frame of the clip that just played, th
   "prompt": "<what happens next>",
   "image_url": "<the last-frame data URL>",
   "negative_prompt": "[THINGS TO AVOID]",
-  "duration": "5s", "aspect_ratio": "16:9", "resolution": "768P"
+  "duration": "5s", "resolution": "768P"
 }
-resolution must be exactly "768P" (capital P). Save the "queue_id" (and "download_url" if present).
+IMPORTANT: image-to-video does NOT accept "aspect_ratio" — it takes the shape from your frame. Sending it returns HTTP 400, and if your code falls back to text-to-video you'll silently lose the continuity (this is the #1 reason "it isn't chaining"). Only the FIRST, text-to-video scene takes "aspect_ratio". resolution must be exactly "768P" (capital P). Save the "queue_id" (and "download_url" if present).
 
 Poll: every 5s POST /video/retrieve with { "model": "<the same model you queued>", "queue_id": <id> }.
   - If the response Content-Type starts with "video/", read it as a blob, make an object URL, and play it.
@@ -115,15 +115,17 @@ After a clip plays, use a Venice chat model to narrate it and suggest what could
 {
   "model": "zai-org-glm-5-2",
   "messages": [
-    { "role": "system", "content": "[NARRATOR VOICE]. Write ONE short line about the scene. Output only JSON, nothing else." },
-    { "role": "user", "content": "Story so far: <short summary>. What just happened: <the action>. Reply with ONLY this JSON: {\"narration\":\"<one short sentence, 20 words max>\",\"ideas\":[\"<2-5 words>\",\"<2-5 words>\",\"<2-5 words>\"]}" }
+    { "role": "system", "content": "You narrate an interactive story in the voice of [NARRATOR VOICE]. Reply with STRICT JSON only — no prose, no markdown, no code fences — in exactly this shape: {\"narration\":\"...\",\"ideas\":[\"...\",\"...\",\"...\"]}. narration = ONE vivid present-tense sentence, 20 words max, about the moment just shown, in character; it must never be empty. ideas = exactly three short suggestions (2 to 5 words each) for what happens next, written as actions. Example: {\"narration\":\"He offers the rose; behind her mask, one eyebrow rises.\",\"ideas\":[\"ask her to dance\",\"slip outside together\",\"order champagne\"]}" },
+    { "role": "user", "content": "Story so far: <short summary>. What just happened: <the action>. Write the next narration line and three ideas, as JSON." }
   ],
   "response_format": { "type": "json_object" },
-  "temperature": 0.5,
-  "max_tokens": 400,
+  "temperature": 0.35,
+  "max_tokens": 300,
   "venice_parameters": { "disable_thinking": true }
 }
-Under the video, show the narration in big text, then the heading "What happens next?", the three "ideas" as tappable buttons, and a text box + "Go" to type my own. If parsing ever fails, show the raw text trimmed short and no buttons, so the app never breaks.
+Under the video, show the narration in big text, then the heading "What happens next?", the three "ideas" as tappable buttons, and a text box + "Go" to type my own. If parsing ever fails, fall back to a plain sentence and no buttons so the app never breaks.
+
+> **Making the narrator reliable:** keep the STRICT-JSON instruction *and* the worked example in the system message, keep `temperature` low (~0.3–0.4), keep `disable_thinking` on, and guarantee `narration` is never empty (if it comes back blank, reuse the action text). Those four together are what turn a flaky narrator into a dependable one.
 ```
 
 ## Step 4 — Keep the story going (with memory)
