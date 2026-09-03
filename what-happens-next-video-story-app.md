@@ -5,13 +5,15 @@ Copy-paste prompts to build a little app in the [Venice](https://venice.ai) code
 describes it, and the story chains on — clip after clip — into a storybook. One HTML file,
 built by describing it. Fill in anything in `[BRACKETS]`, then run top to bottom.
 
-**Two models do the work:**
-- **`minimax-h3-max-text-to-video`** — films each 5-second scene (Private on Venice; ~$0.45/clip, less during promos).
+**The models that do the work:**
+- **`minimax-h3-max-text-to-video`** — films the *first* 5-second scene (Private on Venice; ~$0.45/clip, less during promos).
+- **`minimax-h3-max-image-to-video`** — films *every scene after that*, seeded with the last frame of the scene before, so the character and place carry over.
 - **`zai-org-glm-5-2`** — writes the one-line narration and (optionally) checks each idea.
 
-> **The one idea that makes it work:** every scene describes only *what changes next*, on top
-> of a short "story so far." Short, specific prompts are why the scenes feel like one film
-> instead of random clips.
+> **The one idea that makes it work:** every scene continues the one before it two ways at once
+> — **visually**, by chaining from the previous clip's last frame (image-to-video), and
+> **narratively**, by feeding a running "story so far" to the narrator. That's the difference
+> between one continuous story and a pile of unrelated clips.
 
 Swap the character, the world, and the look and the same template becomes a kids bedtime app,
 a film-noir mystery, a sci-fi serial, or a night out. Three ready-made recipes are at the
@@ -65,36 +67,45 @@ Show a small notice: "Your API key is saved in this browser on this device. Keep
 Show a big title "[APP NAME]", a one-line tagline, and four cards to pick where the story begins: [SCENE 1], [SCENE 2], [SCENE 3], [SCENE 4]. Under them, a text box to type my own opening, and a "Go" button. When I pick one, remember it and show a "Filming the scene…" screen.
 ```
 
-## Step 2 — Film the opening scene
+## Step 2 — Film the opening, then chain every scene from the last frame
 
 ```text
-When I pick an opening, generate a short video with the Venice video API, then play it.
+Film scenes with the Venice video API. The FIRST scene is text-to-video; EVERY scene after continues from the last frame of the scene before (image-to-video), so the character and place carry across cuts.
 
 All calls go from the browser to https://api.venice.ai/api/v1 with headers:
   Authorization: Bearer <the VENICE_API_KEY value>
   Content-Type: application/json
 
-The video API is asynchronous, two steps:
-Step 1 — POST /video/queue with:
+FIRST scene — POST /video/queue with:
 {
   "model": "minimax-h3-max-text-to-video",
   "prompt": "<the scene, in words>",
   "negative_prompt": "[THINGS TO AVOID]",
-  "duration": "5s",
-  "aspect_ratio": "16:9",
-  "resolution": "768P"
+  "duration": "5s", "aspect_ratio": "16:9", "resolution": "768P"
+}
+
+EVERY LATER scene — first grab the last frame of the clip that just played, then POST /video/queue with:
+{
+  "model": "minimax-h3-max-image-to-video",
+  "prompt": "<what happens next>",
+  "image_url": "<the last-frame data URL>",
+  "negative_prompt": "[THINGS TO AVOID]",
+  "duration": "5s", "aspect_ratio": "16:9", "resolution": "768P"
 }
 resolution must be exactly "768P" (capital P). Save the "queue_id" (and "download_url" if present).
-Step 2 — every 5 seconds POST /video/retrieve with { "model": "minimax-h3-max-text-to-video", "queue_id": <id> }.
+
+Poll: every 5s POST /video/retrieve with { "model": "<the same model you queued>", "queue_id": <id> }.
   - If the response Content-Type starts with "video/", read it as a blob, make an object URL, and play it.
   - Otherwise read JSON: "PROCESSING" → keep waiting; "COMPLETED" → play the saved download_url.
 
-Build the scene prompt as: this style token, then the main character, then the setting, then the action.
+Grab the last frame: after a clip loads, draw its final frame to a <canvas> (seek to duration - 0.1s, drawImage the video, then canvas.toDataURL("image/jpeg", 0.85)) and keep that data URL as the first frame for the next scene. This needs the clip as a same-origin blob — the "video/" retrieve path gives you one; if a scene only returns a cross-origin download_url, fetch it as a blob first, or just fall back to text-to-video for that beat.
+
+Build the scene prompt as: the style token, then the main character, then the action. On the FIRST scene also include the setting; on chained scenes say "Continue smoothly from the given first frame — same character, same place" instead of re-describing the setting.
   Style token: "[STYLE TOKEN]"
   Main character (keep identical every scene): "[CHARACTER]"
-  Setting: "[SETTING]"
+  Setting (first scene): "[SETTING]"
 
-Play the clip in a video element with controls, autoplay, playsinline, looping, unmuted. Show any error and HTTP status on screen.
+Play each clip in a video element with controls, autoplay, playsinline, looping, unmuted. Show any error and HTTP status on screen. If the image-to-video call ever fails, retry that one beat as text-to-video so the app never dead-ends.
 ```
 
 ## Step 3 — Add the narrator and the big question
@@ -115,10 +126,10 @@ After a clip plays, use a Venice chat model to narrate it and suggest what could
 Under the video, show the narration in big text, then the heading "What happens next?", the three "ideas" as tappable buttons, and a text box + "Go" to type my own. If parsing ever fails, show the raw text trimmed short and no buttons, so the app never breaks.
 ```
 
-## Step 4 — Keep the story going
+## Step 4 — Keep the story going (with memory)
 
 ```text
-When I tap an idea or type one and press Go, treat it as "what happens next": film the next scene with the same video steps, narrate it, then ask again — for as many turns as I like. Keep a short "story so far" from the last one or two narration lines and add it to each film prompt like: "Continuing the story: <so far>. Now: <what happens next>." Describe only the new thing that happens, so scenes flow from one to the next.
+When I tap an idea or type one and press Go, treat it as "what happens next": chain the next scene from the last frame (Step 2), narrate it, then ask again — for as many turns as I like. Keep a running "story so far" — the last ~4 narration lines, or a one-paragraph synopsis you rewrite each turn — and pass it to the narrator so the writing remembers the plot. Describe only the new thing that happens. (Visual continuity comes from the last-frame chain; plot memory comes from this synopsis.)
 ```
 
 ## Step 5 — Content mode (pick one)
@@ -135,6 +146,18 @@ Do not add any content filter. Whatever I type gets filmed. (Venice is uncensore
 
 ```text
 Keep every scene (its video and its narration line), in order. Add a "See the story" button that shows each scene as a small looping video with its line underneath, plus a "Keep going" button and a "Start over" button that returns to the opening picker.
+```
+
+## Step 7 — Play the whole story
+
+```text
+On the storybook, add a "Play the whole story" button that plays every scene's clip back to back in a single player: set the video to scene 1, and on "ended" advance to scene 2, and so on, showing each narration line as it plays. That turns the chain into one continuous watch, start to finish.
+```
+
+## Step 8 — Keep it (save and resume)
+
+```text
+Save the story so a refresh doesn't lose it. After each scene, store its video (as a Blob), its narration line, the last-frame image, and the running "story so far" in IndexedDB. On load, if a saved story exists, show a "Resume" button that rebuilds the scenes (make fresh object URLs from the saved Blobs) and restores the last frame so the chain continues. Add a "Start over" that clears it. (Use IndexedDB, not localStorage — video blobs are far too big for localStorage.)
 ```
 
 ---
@@ -219,6 +242,7 @@ Avoid: `neon, neon signs, glowing signage, holograms, holographic, cyberpunk, te
 ## How it works
 
 - **The video model is private.** MiniMax H3 Max runs on Venice as a private model, so your ideas and the movies made from them stay private to your account.
+- **Each scene continues the last.** After the first text-to-video scene, every new scene is image-to-video seeded with the previous clip's final frame, so the character and place carry across cuts instead of being re-rolled from scratch. That's what makes it one story you can actually follow.
 - **Describe the change, not the whole story.** Each film request says only what happens next, on top of a short summary. That's what makes the scenes connect.
 - **The surprise is the point.** A video model doesn't draw exactly what you pictured — in a story, that's the fun.
 - **Your key is in the file.** Building in the sandbox has no server to hide a secret, so the key sits in the page. That's why the app shows a warning and why you keep the chat private. To share it, move it to a real project with a server that keeps the key out of the browser.
