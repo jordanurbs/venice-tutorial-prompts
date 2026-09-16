@@ -12,6 +12,7 @@ Mega-prompt templates designed to be pasted into a frontier language model. Fill
 | [Build a Brand](build-a-brand-with-qwen.md) | Qwen 3.7 + Qwen Image 2 Pro | Step-by-step prompts to build a full brand — world, product, explainer, and launch campaign — with consistent copy and visuals |
 | [Multilingual Talking Head](multilingual-talking-head-seven-languages.md) | Happy Horse 1.1 | Copy-paste prompts to invent a photorealistic person, then make them speak one line in all seven lip-sync languages, each in front of a landmark — plus rapid-fire backdrop and soundtrack prompts |
 | [What Happens Next?](what-happens-next-video-story-app.md) | H3 Max + GLM 5.2 | Build a code-sandbox app where you type "what happens next" and Venice films each scene, chaining into a storybook. Fill in `[CHARACTER]`/`[SETTING]`/`[STYLE]`; three ready-made recipes (a kids version, plus two mature/uncensored ones) |
+| [360° Product Showcase](360-product-showcase-video.md) | Nano Banana 2 + H3 Max Multi-Angle + OpenCode | Turn one product photo into a polished, speed-ramped 360° spin: prompt the orbit in Studio, then describe the edit (speed ramp, loop, formats, music) to an AI coding agent on Venice — no ffmpeg. Fill in `[PRODUCT]`/`[MATERIAL]`/`[HERO]`; ready-made perfume recipe |
 
 ## Prompt packs
 
